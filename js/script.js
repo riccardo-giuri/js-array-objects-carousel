@@ -60,6 +60,7 @@ const carousel = {
      */
     initialize() {
         this.activateElement(this.slideItemsElements[this.slideCounter]);
+        carousel.modifySlideText(images[carousel.slideCounter]);
         this.nextBtn.addEventListener("click", this.btnNextClick);
         this.previousBtn.addEventListener("click", this.btnPreviousClick);
     },
