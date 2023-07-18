@@ -1,3 +1,6 @@
+/**
+ * @type {object[]}
+ */
 const images = [
     {
         image: 'img/01.webp',
@@ -23,20 +26,47 @@ const images = [
 ];
 
 const carousel = {
+    /**
+     * @type {Element}
+     */
     slideListElement: document.querySelector("#slide-list"),
+    /**
+     * @type {Element}
+     */
     titleElement: document.querySelector("#text-title"),
+    /**
+     * @type {Element}
+     */
     descriptionElement: document.querySelector("#text-description"),
+    /**
+     * @type {Element}
+     */
     nextBtn: document.querySelector(".carousel_btn_right"),
+    /**
+     * @type {Element}
+     */
     previousBtn: document.querySelector(".carousel_btn_left"),
+    /**
+     * @type {Element[]}
+     */
     slideItemsElements: [],
+    /**
+     * @type {number}
+     */
     slideCounter: 0,
 
+    /**
+     * Initialize value after they are created
+     */
     initialize() {
         this.activateElement(this.slideItemsElements[this.slideCounter]);
         this.nextBtn.addEventListener("click", this.btnNextClick);
         this.previousBtn.addEventListener("click", this.btnPreviousClick);
     },
 
+    /**
+     * Functionality of the btn next when is clicked
+     */
     btnNextClick() {
         if(carousel.slideCounter >= (carousel.slideItemsElements.length - 1)) {
             carousel.deactivateElement(carousel.slideItemsElements[carousel.slideCounter]);
@@ -52,6 +82,9 @@ const carousel = {
         }
     },
 
+    /**
+     * Functionality of the btn previous when is clicked
+     */
     btnPreviousClick() {
         if(carousel.slideCounter <= 0) {
             carousel.deactivateElement(carousel.slideItemsElements[carousel.slideCounter]);
@@ -67,6 +100,11 @@ const carousel = {
         }
     },
 
+    /**
+     * Create and return the slide element and populate the Slide Array with that element
+     * @param {Element} objectToPrint Object where i can take the datas
+     * @returns {Element}
+     */
     createSlideElements(objectToPrint) {
         let listItem = document.createElement("li");
         listItem.classList.add("slideItem", "opacity-0");
@@ -78,11 +116,19 @@ const carousel = {
         return listItem;
     },
 
+    /**
+     * Modify the Text of the Slide element
+     * @param {Element} objectToPrint Object where i can take the datas
+     */
     modifySlideText(objectToPrint) {
         this.titleElement.textContent = objectToPrint.title;
         this.descriptionElement.textContent = objectToPrint.text;
     },
 
+    /**
+     * Print the element created in the HTML
+     * @param {object[]} arrayToPrint 
+     */
     printElements(arrayToPrint) {
         arrayToPrint.forEach((element, i) => {
             const slideELement = this.createSlideElements(element);
@@ -91,10 +137,18 @@ const carousel = {
         });
     },
 
+    /**
+     * Activate and show the element in the HTML
+     * @param {Element} element Element that you want to Activate
+     */
     activateElement(element) {
         element.classList.remove("opacity-0");
     },
 
+    /**
+     * Deactivate and remove from seeing the element in the HTML
+     * @param {Element} element Element that you want to Deactivate
+     */
     deactivateElement(element) {
         element.classList.add("opacity-0");
     }
