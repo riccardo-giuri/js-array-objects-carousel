@@ -26,16 +26,54 @@ const carousel = {
     slideListElement: document.querySelector("#slide-list"),
     titleElement: document.querySelector("#text-title"),
     descriptionElement: document.querySelector("#text-description"),
+    nextBtn: document.querySelector(".carousel_btn_right"),
+    previousBtn: document.querySelector(".carousel_btn_left"),
     slideItemsElements: [],
     slideCounter: 0,
 
+    initialize() {
+        this.activateElement(this.slideItemsElements[this.slideCounter]);
+        this.nextBtn.addEventListener("click", this.btnNextClick);
+        this.previousBtn.addEventListener("click", this.btnPreviousClick);
+    },
+
+    btnNextClick() {
+        if(carousel.slideCounter >= (carousel.slideItemsElements.length - 1)) {
+            carousel.deactivateElement(carousel.slideItemsElements[carousel.slideCounter]);
+            carousel.slideCounter = 0;
+            carousel.activateElement(carousel.slideItemsElements[carousel.slideCounter]);
+            carousel.modifySlideText(images[carousel.slideCounter]);
+        }
+        else {
+            carousel.deactivateElement(carousel.slideItemsElements[carousel.slideCounter]);
+            carousel.slideCounter++;
+            carousel.activateElement(carousel.slideItemsElements[carousel.slideCounter]);
+            carousel.modifySlideText(images[carousel.slideCounter]);
+        }
+    },
+
+    btnPreviousClick() {
+        if(carousel.slideCounter <= 0) {
+            carousel.deactivateElement(carousel.slideItemsElements[carousel.slideCounter]);
+            carousel.slideCounter = carousel.slideItemsElements.length - 1;
+            carousel.activateElement(carousel.slideItemsElements[carousel.slideCounter]);
+            carousel.modifySlideText(images[carousel.slideCounter]);
+        }
+        else {
+            carousel.deactivateElement(carousel.slideItemsElements[carousel.slideCounter]);
+            carousel.slideCounter--;
+            carousel.activateElement(carousel.slideItemsElements[carousel.slideCounter]);
+            carousel.modifySlideText(images[carousel.slideCounter]);
+        }
+    },
 
     createSlideElements(objectToPrint) {
-        const listItem = document.createElement("li");
+        let listItem = document.createElement("li");
         listItem.classList.add("slideItem", "opacity-0");
         const itemImage = document.createElement("img");
         itemImage.src = objectToPrint.image;
         listItem.append(itemImage);
+        this.slideItemsElements.push(listItem);
 
         return listItem;
     },
@@ -49,14 +87,20 @@ const carousel = {
         arrayToPrint.forEach((element, i) => {
             const slideELement = this.createSlideElements(element);
 
-            if(i === 0) {
-                slideELement.classList.remove("opacity-0");
-            }
-
             this.slideListElement.append(slideELement);
         });
+    },
+
+    activateElement(element) {
+        element.classList.remove("opacity-0");
+    },
+
+    deactivateElement(element) {
+        element.classList.add("opacity-0");
     }
 }
 
 
+
 carousel.printElements(images);
+carousel.initialize();
