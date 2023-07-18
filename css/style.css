@@ -36,3 +36,10 @@ li {
     right: 10px;
     z-index: 2;
 }
+
+.text_card {
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+    z-index: 2;
+}
